@@ -38,70 +38,108 @@
       </header>
       <div class="row">
         <div class="column">
-          <h2>Enter Property Details</h2>
-          <p>
-            Fill in the 13 features below. If you don’t have specific values,
-            click "Randomize Features" to auto-generate values based on their
-            ranges.
-          </p>
-          <form action="{{ url_for('predict') }}" method="post">
+          <h2>Enter Housing Features</h2>
+
+          <form id="predictForm" action="/predict_api" method="post">
             <div class="form-group">
-              <input type="text" name="CRIM" placeholder="CRIM" required />
+              <input
+                type="text"
+                name="CRIM"
+                placeholder="CRIM: Per capita crime rate"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="ZN" placeholder="ZN" required />
+              <input
+                type="text"
+                name="ZN"
+                placeholder="ZN: Proportion of residential land"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="INDUS" placeholder="INDUS" required />
+              <input
+                type="text"
+                name="INDUS"
+                placeholder="INDUS: Proportion of non-retail business acres"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="CHAS" placeholder="CHAS" required />
+              <input
+                type="text"
+                name="CHAS"
+                placeholder="CHAS: Charles River dummy variable (0 or 1)"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="NOX" placeholder="NOX" required />
+              <input
+                type="text"
+                name="NOX"
+                placeholder="NOX: Nitric oxides concentration"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="RM" placeholder="RM" required />
+              <input
+                type="text"
+                name="RM"
+                placeholder="RM: Average number of rooms"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="AGE" placeholder="AGE" required />
+              <input
+                type="text"
+                name="AGE"
+                placeholder="AGE: Proportion of owner-occupied units"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="DIS" placeholder="DIS" required />
+              <input
+                type="text"
+                name="DIS"
+                placeholder="DIS: Weighted distances to employment centers"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="RAD" placeholder="RAD" required />
+              <input
+                type="text"
+                name="RAD"
+                placeholder="RAD: Index of accessibility to highways"
+              />
             </div>
             <div class="form-group">
-              <input type="text" name="TAX" placeholder="TAX" required />
+              <input
+                type="text"
+                name="TAX"
+                placeholder="TAX: Property-tax rate"
+              />
             </div>
             <div class="form-group">
               <input
                 type="text"
                 name="PTRATIO"
-                placeholder="PTRATIO"
-                required
+                placeholder="PTRATIO: Pupil-teacher ratio"
               />
             </div>
             <div class="form-group">
-              <input type="text" name="B" placeholder="B" required />
+              <input type="text" name="B" placeholder="B: 1000(Bk - 0.63)²" />
             </div>
             <div class="form-group">
-              <input type="text" name="LSTAT" placeholder="LSTAT" required />
+              <input
+                type="text"
+                name="LSTAT"
+                placeholder="LSTAT: % lower status of the population"
+              />
             </div>
-            <div class="form-group">
-              <button type="button" id="randomBtn" class="random-button">
-                Randomize Features
-              </button>
-            </div>
-            <div class="form-group">
-              <button type="submit" id="predictBtn" disabled>
-                Predict Price
-              </button>
-            </div>
+            <button id="randomBtn" class="random-button">
+              Load Random Sample
+            </button>
+
+            <button type="submit" id="predictBtn" disabled>Predict</button>
           </form>
-          <div class="prediction" id="prediction">Predicted Price:</div>
-          {{prediction_text}}
+
+          <div id="prediction" class="prediction">
+            {% if prediction_text %}
+            <p>{{ prediction_text }}</p>
+            {% endif %}
+          </div>
         </div>
         <div class="column features-description">
           <h2>📋Attribute Info</h2>
