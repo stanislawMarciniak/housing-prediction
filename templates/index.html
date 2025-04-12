@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Boston House Price Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Boston House Price Prediction</h1>
+        <p>
+          This project uses the classic Boston Housing dataset to predict house
+          prices. When looking at prediction take into account that data is from
+          1978 and median price was <strong>$21,600 </strong>then. The dataset
+          contains several key features such as crime rate, residential land
+          zoning, and more. Learn more on
+          <a
+            href="https://www.kaggle.com/datasets/altavish/boston-housing-dataset"
+            target="_blank"
+            >Kaggle</a
+          >
+          and explore the project on
+          <a
+            href="https://github.com/stanislawMarciniak/housing-prediction"
+            target="_blank"
+            >GitHub</a
+          >.
+        </p>
+      </header>
+      <div class="row">
+        <div class="column">
+          <h2>Enter Property Details</h2>
+          <p>
+            Fill in the 13 features below. If you don’t have specific values,
+            click "Randomize Features" to auto-generate values based on their
+            ranges.
+          </p>
+          <form action="{{ url_for('predict') }}" method="post">
+            <div class="form-group">
+              <input type="text" name="CRIM" placeholder="CRIM" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="ZN" placeholder="ZN" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="INDUS" placeholder="INDUS" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="CHAS" placeholder="CHAS" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="NOX" placeholder="NOX" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="RM" placeholder="RM" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="AGE" placeholder="AGE" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="DIS" placeholder="DIS" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="RAD" placeholder="RAD" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="TAX" placeholder="TAX" required />
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                name="PTRATIO"
+                placeholder="PTRATIO"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input type="text" name="B" placeholder="B" required />
+            </div>
+            <div class="form-group">
+              <input type="text" name="LSTAT" placeholder="LSTAT" required />
+            </div>
+            <div class="form-group">
+              <button type="button" id="randomBtn" class="random-button">
+                Randomize Features
+              </button>
+            </div>
+            <div class="form-group">
+              <button type="submit" id="predictBtn" disabled>
+                Predict Price
+              </button>
+            </div>
+          </form>
+          <div class="prediction" id="prediction">Predicted Price:</div>
+          {{prediction_text}}
+        </div>
+        <div class="column features-description">
+          <h2>📋Attribute Info</h2>
+          <ul>
+            <li><strong>CRIM</strong>: per capita crime rate by town</li>
+            <li>
+              <strong>ZN</strong>: proportion of residential land zoned for lots
+              over 25,000 sq.ft.
+            </li>
+            <li>
+              <strong>INDUS</strong>: proportion of non-retail business acres
+              per town
+            </li>
+            <li>
+              <strong>CHAS</strong>: Charles River dummy variable (1 if bounds
+              river; 0 otherwise)
+            </li>
+            <li>
+              <strong>NOX</strong>: nitric oxides concentration (parts per 10
+              million)
+            </li>
+            <li><strong>RM</strong>: average number of rooms per dwelling</li>
+            <li>
+              <strong>AGE</strong>: proportion of owner-occupied units built
+              before 1940
+            </li>
+            <li>
+              <strong>DIS</strong>: weighted distances to five Boston employment
+              centres
+            </li>
+            <li>
+              <strong>RAD</strong>: index of accessibility to radial highways
+            </li>
+            <li><strong>TAX</strong>: property-tax rate per 10,000 dollars</li>
+            <li><strong>PTRATIO</strong>: pupil-teacher ratio by town</li>
+            <li>
+              <strong>B</strong>: 1000(Bk - 0.63)² (proportion of Black
+              residents)
+            </li>
+            <li><strong>LSTAT</strong>: % lower status of the population</li>
+          </ul>
+          <h4>Feature Ranges</h4>
+          <pre>
+  CRIM:     min = 0.006320,  max = 88.976200
+  ZN:       min = 0.000000,  max = 100.000000
+  INDUS:    min = 0.460000,  max = 27.740000
+  CHAS:     min = 0.000000,  max = 1.000000
+  NOX:      min = 0.385000,  max = 0.871000
+  RM:       min = 3.561000,  max = 8.780000
+  AGE:      min = 2.900000,  max = 100.000000
+  DIS:      min = 1.129600,  max = 12.126500
+  RAD:      min = 1.000000,  max = 24.000000
+  TAX:      min = 187.000000, max = 711.000000
+  PTRATIO:  min = 12.600000, max = 22.000000
+  B:        min = 0.320000,  max = 396.900000
+  LSTAT:    min = 1.730000,  max = 50.000000
+          </pre>
+          <p>
+            <em
+              >Note: MEDV (target) is the median value of owner-occupied homes
+              in $1000's.</em
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+  </body>
+</html>
