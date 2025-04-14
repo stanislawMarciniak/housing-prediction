@@ -5,12 +5,13 @@ This project implements a machine learning model to predict Boston housing price
 ## Live Demo
 
 The application is hosted and can be accessed at:
-[https://my-flask-app-yzma.onrender.com/](https://my-flask-app-yzma.onrender.com/)
+[https://house-price-prediction-5ss5.onrender.com/](https://house-price-prediction-5ss5.onrender.com/)
 
 ## Project Structure
 
 ### Key Files
 
+- **housing-linear-regression.ipynb**: Jupyter notebook containing data analysis and model training.
 - **app.py**: Flask web application that serves the prediction model and handles API requests.
 - **requirements.txt**: Lists all Python dependencies required for the project.
 - **regmodel.pkl**: Serialized trained linear regression model.
@@ -18,7 +19,6 @@ The application is hosted and can be accessed at:
 - **templates/index.html**: Main HTML page for the web interface.
 - **static/**: Directory containing CSS styles and JavaScript for the front-end.
 - **Dockerfile**: Configuration for containerizing the application.
-- **housing-linear-regression.ipynb**: Jupyter notebook containing data analysis and model training.
 
 ### Model Training
 
