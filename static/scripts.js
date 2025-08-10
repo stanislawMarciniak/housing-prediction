@@ -67,8 +67,11 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((result) => {
-        // Format the prediction
-        const predictedValue = (result * 1000).toFixed(2);
+        // Format the prediction with commas
+        const predictedValue = (result * 1000).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
 
         // Create the prediction display
         let predictionHTML = `<p>Predicted Price: $${predictedValue}</p>`;
@@ -77,29 +80,36 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentRowIndex >= 0 && trainingData[currentRowIndex]) {
           const actualValue = (
             trainingData[currentRowIndex].MEDV * 1000
-          ).toFixed(2);
-          const difference = Math.abs(
-            parseFloat(predictedValue) - parseFloat(actualValue)
-          ).toFixed(2);
+          ).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+
+          // Remove commas for calculation
+          const differenceNum = Math.abs(
+            parseFloat(predictedValue.replace(/,/g, "")) -
+              parseFloat(actualValue.replace(/,/g, ""))
+          );
+
+          const difference = differenceNum.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+
           const percentDiff = (
-            (difference / parseFloat(actualValue)) *
+            (differenceNum / parseFloat(actualValue.replace(/,/g, ""))) *
             100
           ).toFixed(1);
 
           predictionHTML += `
-          <p>Actual Price: $${actualValue}</p>
-          <p>Difference: $${difference} (${percentDiff}%)</p>
-        `;
+            <p>Actual Price: $${actualValue}</p>
+            <p>Difference: $${difference} (${percentDiff}%)</p>
+          `;
 
           currentRowIndex = -1;
         }
 
         document.getElementById("prediction").innerHTML = predictionHTML;
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        document.getElementById("prediction").innerHTML =
-          "Error making prediction";
       });
   });
 });
